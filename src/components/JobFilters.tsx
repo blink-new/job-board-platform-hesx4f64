@@ -36,15 +36,16 @@ export function JobFilters({
 }: JobFiltersProps) {
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   
-  const locations = ["", ...getUniqueLocations()];
-  const categories = ["", ...getUniqueCategories()];
-  const jobTypes = ["", ...getUniqueTypes()];
-  const experienceLevels = ["", ...getUniqueExperienceLevels()];
+  // Using "all" instead of empty string for the "All" option
+  const locations = ["all", ...getUniqueLocations()];
+  const categories = ["all", ...getUniqueCategories()];
+  const jobTypes = ["all", ...getUniqueTypes()];
+  const experienceLevels = ["all", ...getUniqueExperienceLevels()];
   
-  const hasActiveFilters = location || category || type || experience;
+  const hasActiveFilters = location !== "" || category !== "" || type !== "" || experience !== "";
 
   // Count active filters
-  const activeFilterCount = [location, category, type, experience].filter(Boolean).length;
+  const activeFilterCount = [location, category, type, experience].filter(val => val !== "").length;
   
   return (
     <div className="space-y-4">
@@ -83,14 +84,14 @@ export function JobFilters({
             <label className="block mb-2 text-sm font-medium text-gray-700">
               Location
             </label>
-            <Select value={location} onValueChange={onLocationChange}>
+            <Select value={location || "all"} onValueChange={(value) => onLocationChange(value === "all" ? "" : value)}>
               <SelectTrigger>
                 <SelectValue placeholder="All locations" />
               </SelectTrigger>
               <SelectContent>
                 {locations.map((loc) => (
-                  <SelectItem key={loc || "all"} value={loc}>
-                    {loc || "All locations"}
+                  <SelectItem key={loc} value={loc}>
+                    {loc === "all" ? "All locations" : loc}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -101,14 +102,14 @@ export function JobFilters({
             <label className="block mb-2 text-sm font-medium text-gray-700">
               Category
             </label>
-            <Select value={category} onValueChange={onCategoryChange}>
+            <Select value={category || "all"} onValueChange={(value) => onCategoryChange(value === "all" ? "" : value)}>
               <SelectTrigger>
                 <SelectValue placeholder="All categories" />
               </SelectTrigger>
               <SelectContent>
                 {categories.map((cat) => (
-                  <SelectItem key={cat || "all"} value={cat}>
-                    {cat || "All categories"}
+                  <SelectItem key={cat} value={cat}>
+                    {cat === "all" ? "All categories" : cat}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -119,14 +120,14 @@ export function JobFilters({
             <label className="block mb-2 text-sm font-medium text-gray-700">
               Job Type
             </label>
-            <Select value={type} onValueChange={onTypeChange}>
+            <Select value={type || "all"} onValueChange={(value) => onTypeChange(value === "all" ? "" : value)}>
               <SelectTrigger>
                 <SelectValue placeholder="All types" />
               </SelectTrigger>
               <SelectContent>
                 {jobTypes.map((jType) => (
-                  <SelectItem key={jType || "all"} value={jType}>
-                    {jType || "All types"}
+                  <SelectItem key={jType} value={jType}>
+                    {jType === "all" ? "All types" : jType}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -137,14 +138,14 @@ export function JobFilters({
             <label className="block mb-2 text-sm font-medium text-gray-700">
               Experience
             </label>
-            <Select value={experience} onValueChange={onExperienceChange}>
+            <Select value={experience || "all"} onValueChange={(value) => onExperienceChange(value === "all" ? "" : value)}>
               <SelectTrigger>
                 <SelectValue placeholder="All levels" />
               </SelectTrigger>
               <SelectContent>
                 {experienceLevels.map((exp) => (
-                  <SelectItem key={exp || "all"} value={exp}>
-                    {exp || "All levels"}
+                  <SelectItem key={exp} value={exp}>
+                    {exp === "all" ? "All levels" : exp}
                   </SelectItem>
                 ))}
               </SelectContent>
